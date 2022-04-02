@@ -30,50 +30,57 @@ class TransferenceForm extends StatelessWidget {
       appBar: AppBar(title: const Text('Nova Transferência')),
       body: Column(
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 0),
-            child: TextField(
-              style: const TextStyle(fontSize: 24.0),
-              decoration: const InputDecoration(
-                labelText: 'Número da conta',
-                hintText: '12345',
-              ),
-              keyboardType: TextInputType.number,
-              controller: _fieldAccountNumberController,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 0),
-            child: TextField(
-              style: const TextStyle(fontSize: 24.0),
-              decoration: const InputDecoration(
-                icon: Icon(Icons.monetization_on),
-                labelText: 'Valor',
-                hintText: '0.00',
-              ),
-              keyboardType: TextInputType.number,
-              controller: _fieldAccountValueController,
-            ),
-          ),
+          Editor(getController: _fieldAccountNumberController, getLabelText: 'Número da conta', getHintText: '00000'),
+          Editor(getController: _fieldAccountValueController, getLabelText: 'Valor', getHintText: '0,00', getIcon: Icons.monetization_on),
           Padding(
             padding: const EdgeInsets.only(top: 32.00),
             child: ElevatedButton(
                 child: const Text('Confirmar'),
-                onPressed: () {
-                  final int? accountNumber = int.tryParse(_fieldAccountNumberController.text);
-                  final double? accountValue = double.tryParse(_fieldAccountValueController.text);
-
-                  if (accountNumber != null && accountValue != null) {
-                   final transferCreated = TransferData(accountNumber, accountValue);
-                   debugPrint('${transferCreated}');
-                  }
-                }),
+                onPressed: () => _createTransference()),
           ),
         ],
       ),
     );
   }
+
+  void _createTransference() {
+    final int? accountNumber = int.tryParse(_fieldAccountNumberController.text);
+    final double? accountValue = double.tryParse(_fieldAccountValueController.text);
+    
+    if (accountNumber != null && accountValue != null) {
+     final transferCreated = TransferData(accountNumber, accountValue);
+     print('$transferCreated');
+    }
+  }
 }
+
+class Editor extends StatelessWidget {
+  final TextEditingController getController;
+  final String getLabelText;
+  final String getHintText;
+  final IconData? getIcon;
+
+  Editor({required this.getController, required this.getLabelText, required this.getHintText, this.getIcon});
+
+  @override
+  Widget build(BuildContext context) {
+    return
+      Padding(
+        padding: const EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 0),
+        child: TextField(
+          style: const TextStyle(fontSize: 24.0),
+          decoration: InputDecoration(
+            labelText: getLabelText,
+            icon: getIcon != null ? Icon(getIcon) : null,
+            hintText: getHintText,
+          ),
+          keyboardType: TextInputType.number,
+          controller: getController,
+        ),
+      );
+  }
+}
+
 
 //**
 class TransferenceList extends StatelessWidget {
