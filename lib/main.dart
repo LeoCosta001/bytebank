@@ -91,17 +91,26 @@ class Editor extends StatelessWidget {
 }
 
 //**
-class TransferenceList extends StatelessWidget {
+class TransferenceList extends StatefulWidget {
+  final List<TransferData> _transferDataList = [];
+
+  @override
+  State<StatefulWidget> createState() {
+    return TransferenceListState();
+  }
+}
+
+class TransferenceListState extends State<TransferenceList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Transferências')),
-      body: Column(
-        children: [
-          TransferenceItem(TransferData(43236, 236.00)),
-          TransferenceItem(TransferData(86254, 319.45)),
-          TransferenceItem(TransferData(38195, 132.78)),
-        ],
+      body: ListView.builder(
+        itemCount: widget._transferDataList.length,
+        itemBuilder: (context, index) {
+          final getTransferDataValue = widget._transferDataList[index];
+          return TransferenceItem(getTransferDataValue);
+        },
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
@@ -111,13 +120,15 @@ class TransferenceList extends StatelessWidget {
           }));
 
           future.then((newTransferData) {
-            debugPrint('Chegou!');
-            debugPrint(newTransferData.toString());
+            if (newTransferData != null) {
+              setState(() {
+                return widget._transferDataList.add(newTransferData);
+              });
+            }
           });
         },
       ),
     );
-    throw UnimplementedError();
   }
 }
 
@@ -135,7 +146,6 @@ class TransferenceItem extends StatelessWidget {
         subtitle: Text('Valor: ${_transferData.value.toString()}'),
       ),
     );
-    throw UnimplementedError();
   }
 }
 
