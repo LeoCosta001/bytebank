@@ -13,10 +13,9 @@ class BytebankApp extends StatelessWidget {
   }
 }
 
-class TransferenceForm extends StatelessWidget {
+class TransferenceForm extends StatefulWidget {
   final TextEditingController _fieldAccountNumberController = TextEditingController();
   final TextEditingController _fieldAccountValueController = TextEditingController();
-
   void dispose() {
     // Clean up the controller when the widget is removed from the
     // widget tree.
@@ -25,6 +24,11 @@ class TransferenceForm extends StatelessWidget {
   }
 
   @override
+  State<StatefulWidget> createState() => _TransferenceFormState();
+}
+
+class _TransferenceFormState extends State<TransferenceForm> {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Nova Transferência')),
@@ -32,11 +36,11 @@ class TransferenceForm extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Editor(
-                getController: _fieldAccountNumberController,
+                getController: widget._fieldAccountNumberController,
                 getLabelText: 'Número da conta',
                 getHintText: '00000'),
             Editor(
-                getController: _fieldAccountValueController,
+                getController: widget._fieldAccountValueController,
                 getLabelText: 'Valor',
                 getHintText: '0,00',
                 getIcon: Icons.monetization_on),
@@ -52,8 +56,8 @@ class TransferenceForm extends StatelessWidget {
   }
 
   void _createTransference(BuildContext context) {
-    final int? accountNumber = int.tryParse(_fieldAccountNumberController.text);
-    final double? accountValue = double.tryParse(_fieldAccountValueController.text);
+    final int? accountNumber = int.tryParse(widget._fieldAccountNumberController.text);
+    final double? accountValue = double.tryParse(widget._fieldAccountValueController.text);
 
     if (accountNumber != null && accountValue != null) {
       final transferCreated = TransferData(accountNumber, accountValue);
