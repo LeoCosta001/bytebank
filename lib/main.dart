@@ -7,12 +7,14 @@ class BytebankApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData( // Verify https://material.io/resources/color
+      // Verify https://material.io/resources/color
+      // Use ThemeData.dark() to apply dark mode
+      theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch().copyWith(
-            primary: Colors.green[900],
-            secondary: Colors.blueAccent[700]
+          primary: Colors.green[900],
+          secondary: Colors.blueAccent[700],
         ),
-      ), //Or ThemeData.dark() to apply dark mode
+      ),
       home: TransferenceList(),
     );
   }

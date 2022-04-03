@@ -2,9 +2,17 @@ import 'package:bytebank/components/editor.dart';
 import 'package:bytebank/models/transferer_data.dart';
 import 'package:flutter/material.dart';
 
+const _titleAppBar = 'Nova Transferência';
+const _inputLabelTextAccountNumber = 'Número da conta';
+const _inputHintTextAccountNumber = '00000';
+const _inputLabelTextValue = 'Valor';
+const _inputHintTextValue = '0,00';
+const _confirmButtonText = 'Confirmar';
+
 class TransferenceForm extends StatefulWidget {
   final TextEditingController _fieldAccountNumberController = TextEditingController();
   final TextEditingController _fieldAccountValueController = TextEditingController();
+
   void dispose() {
     // Clean up the controller when the widget is removed from the
     // widget tree.
@@ -20,23 +28,25 @@ class _TransferenceFormState extends State<TransferenceForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Nova Transferência')),
+      appBar: AppBar(title: const Text(_titleAppBar)),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             Editor(
-                getController: widget._fieldAccountNumberController,
-                getLabelText: 'Número da conta',
-                getHintText: '00000'),
+              getController: widget._fieldAccountNumberController,
+              getLabelText: _inputLabelTextAccountNumber,
+              getHintText: _inputHintTextAccountNumber,
+            ),
             Editor(
-                getController: widget._fieldAccountValueController,
-                getLabelText: 'Valor',
-                getHintText: '0,00',
-                getIcon: Icons.monetization_on),
+              getController: widget._fieldAccountValueController,
+              getLabelText: _inputLabelTextValue,
+              getHintText: _inputHintTextValue,
+              getIcon: Icons.monetization_on,
+            ),
             Padding(
               padding: const EdgeInsets.only(top: 32.00),
               child: ElevatedButton(
-                  child: const Text('Confirmar'), onPressed: () => _createTransference(context)),
+                  child: const Text(_confirmButtonText), onPressed: () => _createTransference(context)),
             ),
           ],
         ),

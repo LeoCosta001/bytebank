@@ -6,11 +6,12 @@ class Editor extends StatelessWidget {
   final String getHintText;
   final IconData? getIcon;
 
-  Editor(
-      {required this.getController,
-        required this.getLabelText,
-        required this.getHintText,
-        this.getIcon});
+  Editor({
+    required this.getController,
+    required this.getLabelText,
+    required this.getHintText,
+    this.getIcon,
+  });
 
   @override
   Widget build(BuildContext context) {
