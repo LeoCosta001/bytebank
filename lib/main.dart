@@ -7,7 +7,7 @@ class BytebankApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: TransferenceForm(),
+        body: TransferenceList(),
       ),
     );
   }
@@ -30,26 +30,32 @@ class TransferenceForm extends StatelessWidget {
       appBar: AppBar(title: const Text('Nova Transferência')),
       body: Column(
         children: <Widget>[
-          Editor(getController: _fieldAccountNumberController, getLabelText: 'Número da conta', getHintText: '00000'),
-          Editor(getController: _fieldAccountValueController, getLabelText: 'Valor', getHintText: '0,00', getIcon: Icons.monetization_on),
+          Editor(
+              getController: _fieldAccountNumberController,
+              getLabelText: 'Número da conta',
+              getHintText: '00000'),
+          Editor(
+              getController: _fieldAccountValueController,
+              getLabelText: 'Valor',
+              getHintText: '0,00',
+              getIcon: Icons.monetization_on),
           Padding(
             padding: const EdgeInsets.only(top: 32.00),
             child: ElevatedButton(
-                child: const Text('Confirmar'),
-                onPressed: () => _createTransference()),
+                child: const Text('Confirmar'), onPressed: () => _createTransference(context)),
           ),
         ],
       ),
     );
   }
 
-  void _createTransference() {
+  void _createTransference(BuildContext context) {
     final int? accountNumber = int.tryParse(_fieldAccountNumberController.text);
     final double? accountValue = double.tryParse(_fieldAccountValueController.text);
-    
+
     if (accountNumber != null && accountValue != null) {
-     final transferCreated = TransferData(accountNumber, accountValue);
-     print('$transferCreated');
+      final transferCreated = TransferData(accountNumber, accountValue);
+      Navigator.pop(context, transferCreated);
     }
   }
 }
@@ -60,27 +66,29 @@ class Editor extends StatelessWidget {
   final String getHintText;
   final IconData? getIcon;
 
-  Editor({required this.getController, required this.getLabelText, required this.getHintText, this.getIcon});
+  Editor(
+      {required this.getController,
+      required this.getLabelText,
+      required this.getHintText,
+      this.getIcon});
 
   @override
   Widget build(BuildContext context) {
-    return
-      Padding(
-        padding: const EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 0),
-        child: TextField(
-          style: const TextStyle(fontSize: 24.0),
-          decoration: InputDecoration(
-            labelText: getLabelText,
-            icon: getIcon != null ? Icon(getIcon) : null,
-            hintText: getHintText,
-          ),
-          keyboardType: TextInputType.number,
-          controller: getController,
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 0),
+      child: TextField(
+        style: const TextStyle(fontSize: 24.0),
+        decoration: InputDecoration(
+          labelText: getLabelText,
+          icon: getIcon != null ? Icon(getIcon) : null,
+          hintText: getHintText,
         ),
-      );
+        keyboardType: TextInputType.number,
+        controller: getController,
+      ),
+    );
   }
 }
-
 
 //**
 class TransferenceList extends StatelessWidget {
@@ -98,7 +106,14 @@ class TransferenceList extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
-          debugPrint('Hello world!');
+          final Future<TransferData?> future = Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return TransferenceForm();
+          }));
+
+          future.then((newTransferData) {
+            debugPrint('Chegou!');
+            debugPrint(newTransferData.toString());
+          });
         },
       ),
     );
