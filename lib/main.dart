@@ -6,9 +6,13 @@ class BytebankApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        body: TransferenceList(),
-      ),
+      theme: ThemeData( // Verify https://material.io/resources/color
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+            primary: Colors.green[900],
+            secondary: Colors.blueAccent[700]
+        ),
+      ), //Or ThemeData.dark() to apply dark mode
+      home: TransferenceList(),
     );
   }
 }
