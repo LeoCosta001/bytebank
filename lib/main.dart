@@ -28,23 +28,25 @@ class TransferenceForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Nova Transferência')),
-      body: Column(
-        children: <Widget>[
-          Editor(
-              getController: _fieldAccountNumberController,
-              getLabelText: 'Número da conta',
-              getHintText: '00000'),
-          Editor(
-              getController: _fieldAccountValueController,
-              getLabelText: 'Valor',
-              getHintText: '0,00',
-              getIcon: Icons.monetization_on),
-          Padding(
-            padding: const EdgeInsets.only(top: 32.00),
-            child: ElevatedButton(
-                child: const Text('Confirmar'), onPressed: () => _createTransference(context)),
-          ),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Editor(
+                getController: _fieldAccountNumberController,
+                getLabelText: 'Número da conta',
+                getHintText: '00000'),
+            Editor(
+                getController: _fieldAccountValueController,
+                getLabelText: 'Valor',
+                getHintText: '0,00',
+                getIcon: Icons.monetization_on),
+            Padding(
+              padding: const EdgeInsets.only(top: 32.00),
+              child: ElevatedButton(
+                  child: const Text('Confirmar'), onPressed: () => _createTransference(context)),
+            ),
+          ],
+        ),
       ),
     );
   }
